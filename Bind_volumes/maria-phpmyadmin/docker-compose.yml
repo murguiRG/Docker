@@ -1,0 +1,34 @@
+version: "3"
+
+services:
+  database:
+      container_name: maria-db
+      image: mariadb:jammy      
+      ports: 
+      - 3306:3306
+      volumes: 
+      - world-db:/var/lib/mysql
+      environment: 
+      - MARIADB_USER=regi_uwu
+      - MARIADB_PASSWORD=mar1ADb
+      - MARIADB_ROOT_PASSWORD=root 
+      - MARIADB_DATABASE=world-db      
+
+  phpMyAdmin:
+    depends_on:
+      - database
+    container_name: phpmyadmin
+    image: phpmyadmin:5.2.1-apache
+    ports:
+      - 8080:80
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_DEFAULT_PASSWORD=myAdm1n
+      - PMA_DEFAULT_EMAIL=utm_stud@google.com
+
+    volumes:
+      - /var/lib/mysql
+
+volumes:
+  world-db:
+    external: true
